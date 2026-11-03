@@ -41,18 +41,20 @@ def resolved_output_columns() -> List[str]:
     return columns
 
 
+# Every video without resolved coordinates goes into this one row, whatever
+# place name its metadata gave; it has a fixed id so reruns keep it stable.
+UNRESOLVED_KEY = json.dumps(["unresolved"])
+UNRESOLVED_LOCALITY_ID = 0
+
+
 def location_key(
     location: Dict[str, Any], video_id: Optional[str] = None
 ) -> str:
     locality = optional_text(location.get("locality"))
     lat = location.get("lat")
     lon = location.get("lon")
-    if not locality and (lat is None or lon is None):
-        return json.dumps(
-            ["unresolved_video", video_id],
-            ensure_ascii=False,
-            separators=(",", ":"),
-        )
+    if lat is None or lon is None:
+        return UNRESOLVED_KEY
     values = [
         locality,
         optional_text(location.get("state")),
@@ -147,7 +149,10 @@ def write_output_csv(state: Dict[str, Any]) -> None:
             continue
         location = _record_location(record)
         key = location_key(location, video_id)
-        if key not in locality_ids:
+        if key == UNRESOLVED_KEY:
+            locality_ids[key] = UNRESOLVED_LOCALITY_ID
+            location = {}
+        elif key not in locality_ids:
             locality_ids[key] = next_id
             next_id += 1
         if key not in grouped:
@@ -289,7 +294,11 @@ def _write_groups(grouped: Dict[str, Dict[str, Any]]) -> None:
             handle, fieldnames=resolved_output_columns()
         )
         writer.writeheader()
-        for group in sorted(grouped.values(), key=lambda row: row["id"]):
+        # resolved localities by id, the unresolved row last
+        for group in sorted(
+            grouped.values(),
+            key=lambda row: (row["id"] == UNRESOLVED_LOCALITY_ID, row["id"]),
+        ):
             writer.writerow(_serialise_group(group))
         handle.flush()
         os.fsync(handle.fileno())
