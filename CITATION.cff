@@ -12,7 +12,7 @@ authors:
   - family-names: Bazilinskyy
     given-names: Pavlo
     email: pavlo.bazilinskyy@gmail.com
-repository-code: "https://github.com/shaadalam9/walking-yt"
+repository-code: "https://github.com/crowd-dataset/walking-yt"
 license: MIT
 version: "0.1.0"
 date-released: "2026-11-09"
