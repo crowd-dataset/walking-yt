@@ -1,14 +1,72 @@
-# Walking YouTube Video Segmentation Pipeline
+# Walking YouTube Dataset and Pipeline
 
 [![Python 3.12.13](https://img.shields.io/badge/python-3.12.13-blue.svg)](https://www.python.org/downloads/release/python-31213/)
 [![Package manager: uv](https://img.shields.io/badge/package%20manager-uv-green)](https://docs.astral.sh/uv/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
-This project discovers long walking videos on YouTube, filters unsuitable videos, downloads accepted candidates, detects scene boundaries, identifies genuine first-person walking segments, extracts explicit location evidence, and writes resumable research outputs.
+A worldwide dataset of first-person walking segments from long YouTube walking
+videos, and the open pipeline that builds it. The pipeline discovers walking
+videos, filters unsuitable ones, detects scene boundaries, keeps the segments
+that show genuine walking from a pedestrian's point of view (no drone, vehicle
+or static footage), labels time of day and walking environment, and places each
+segment in a locality only when the video's chapters or on-screen text name it.
 
-The code is open source and intended primarily for academic research. Forks, pull requests, and contributions in the spirit of open science are welcome. For collaboration inquiries, contact Md Shadab Alam at `md_shadab_alam@outlook.com` or Pavlo Bazilinskyy at `pavlo.bazilinskyy@gmail.com`.
+The repository contains the code and the published tables. It contains **no
+videos and no frames from videos**: every row points to public YouTube videos
+and the start and end times of the walking segments, and `download_videos.py`
+fetches the videos for users who need them.
+
+![Walking localities worldwide](figures/walking/fig_world_walking_all.png)
+
+## At a glance
+
+Snapshot of 3 November 2026; the numbers grow while the pipeline runs.
+
+| | |
+|---|---|
+| Source videos | 2,964 |
+| Walking segments | 55,079 |
+| Total walking duration | about 2,690 hours |
+| Localities / countries | 1,290 / 98 |
+| Time of day | 58% day, 32% night, 10% dawn or dusk |
+| Most common environment | street (62% of segments), then mixed, market, park or nature, indoor |
+
+| Walking environments | Time of day |
+|---|---|
+| ![Walking environments](figures/walking/fig_walking_environment_distribution.png) | ![Time of day](figures/walking/fig_walking_time_of_day.png) |
+
+Like any YouTube collection, the dataset over-represents Europe and North
+America and under-represents Africa; `coverage_baseline.py` in
+[car-crash-yt](https://github.com/crowd-dataset/car-crash-yt) compares the
+walking videos per country with population and road deaths.
+
+## Dataset files
+
+| File | Content |
+|---|---|
+| [`mapping.csv`](mapping.csv) | One row per locality: place names, ISO3 code, continent, coordinates, the videos recorded there, and per-segment start and end times, time of day and walking environment, with the location evidence. See [CSV schema](#csv-schema). |
+| [`mapping_metadata.csv`](mapping_metadata.csv) | YouTube metadata for the videos in the mapping. |
+
+`time_of_day` uses `0` = day, `1` = night, `2` = dawn or dusk, `-1` = unknown.
+Coordinates are locality reference points, not camera positions.
+
+## Getting the videos
+
+`download_videos.py` reads `mapping.csv` and downloads every listed video that
+is not yet present in the configured video folders:
+
+```bash
+cp default.config config      # set the video folder(s)
+python download_videos.py
+```
+
+Videos removed or made private on YouTube are skipped. Downloading must comply
+with YouTube's terms and the law where you work.
 
 ## Contents
 
+- [Dataset files](#dataset-files)
+- [Getting the videos](#getting-the-videos)
 - [Pipeline overview](#pipeline-overview)
 - [Selection and location policy](#selection-and-location-policy)
 - [Requirements and installation](#requirements-and-installation)
@@ -21,6 +79,8 @@ The code is open source and intended primarily for academic research. Forks, pul
 - [Performance and monitoring](#performance-and-monitoring)
 - [Troubleshooting](#troubleshooting)
 - [Security](#security)
+- [Citation](#citation)
+- [Acknowledgements](#acknowledgements)
 
 ## Pipeline overview
 
@@ -670,3 +730,26 @@ The file is valid CSV with nested research fields encoded as compact bracket str
 ## Contributing
 
 When adding a setting, update both `config` and `default.config` and document it here. Bump schema/review versions only when stored-result semantics change. Compile modified modules, test one local video and one SPIKE restart, and never commit credentials, videos, caches, or generated research data.
+
+## Citation
+
+If you use the dataset or the code, please cite it as described in
+[`CITATION.cff`](CITATION.cff) (GitHub's "Cite this repository" button).
+
+## Acknowledgements
+
+The videos were processed on the SPIKE-1 GPU cluster of Eindhoven University of
+Technology. We thank the SPIKE team for the compute and support. The pipeline
+uses NVIDIA Cosmos, Qwen, FFmpeg, yt-dlp, the YouTube Data API and
+OpenStreetMap Nominatim; location data © OpenStreetMap contributors.
+
+## License
+
+The code is released under the [MIT License](LICENSE). The videos remain the
+property of their uploaders and are not part of this repository.
+
+## Contact
+
+Md Shadab Alam (`md_shadab_alam@outlook.com`) and Pavlo Bazilinskyy
+(`pavlo.bazilinskyy@gmail.com`). Forks, issues and pull requests in the spirit
+of open science are welcome.

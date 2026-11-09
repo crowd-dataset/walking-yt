@@ -20,7 +20,7 @@ Use a different state file::
 
 Outputs
 -------
-The script writes the following under ``_output/chi_walking`` by default:
+The script writes the following under ``_output/walking`` by default:
 
 * ``paper_values.txt``: manuscript-ready counts and percentages.
 * ``paper_values.json``: the same summary in machine-readable form.
@@ -29,7 +29,7 @@ The script writes the following under ``_output/chi_walking`` by default:
 * ``figures/*.png`` and ``figures/*.pdf`` when Kaleido is available.
 
 Publication copies of the generated figures are also written to
-``figures/chi_walking`` by default.
+``figures/walking`` by default.
 
 Important denominator rules
 ---------------------------
@@ -115,13 +115,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=ROOT / "_output" / "chi_walking",
+        default=ROOT / "_output" / "walking",
         help="Directory for paper values, tables, and generated figures.",
     )
     parser.add_argument(
         "--publication-dir",
         type=Path,
-        default=ROOT / "figures" / "chi_walking",
+        default=ROOT / "figures" / "walking",
         help="Directory receiving copies of generated publication figures.",
     )
     parser.add_argument(

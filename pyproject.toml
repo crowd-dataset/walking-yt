@@ -1,7 +1,7 @@
 [project]
 name = "walking-yt"
 version = "0.1.0"
-description = "Add your description here"
+description = "Resumable YouTube walking video segmentation pipeline"
 readme = "README.md"
 requires-python = "==3.12.13"
 dependencies = [

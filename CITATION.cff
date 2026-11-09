@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this dataset or software, please cite it as below."
+title: "Walking YouTube Dataset and Pipeline"
+abstract: "A worldwide dataset of first-person walking segments in YouTube videos, and the pipeline that builds it."
+type: software
+authors:
+  - family-names: Alam
+    given-names: Md Shadab
+    email: md_shadab_alam@outlook.com
+  - family-names: Hoggenmueller
+    given-names: Marius
+  - family-names: Bazilinskyy
+    given-names: Pavlo
+    email: pavlo.bazilinskyy@gmail.com
+repository-code: "https://github.com/shaadalam9/walking-yt"
+license: MIT
+version: "0.1.0"
+date-released: "2026-11-09"
+keywords:
+  - walking
+  - pedestrians
+  - first-person video
+  - YouTube
