@@ -57,6 +57,8 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+README_FIGURES = {"fig_world_walking_all", "fig_walking_environment_distribution", "fig_walking_time_of_day"}
+
 
 ROOT = Path(__file__).resolve().parent
 
@@ -1015,7 +1017,9 @@ class WalkingResultsPlotter:
         self._base_layout(fig, width=width, height=height)
 
         html_path = self.output_dir / f"{name}.html"
-        fig.write_html(html_path, include_plotlyjs="cdn")
+        # README figures open through htmlpreview.github.io, which cannot load
+        # Plotly from the CDN: embed it in those files only.
+        fig.write_html(html_path, include_plotlyjs=True if name in README_FIGURES else "cdn")
         produced = [html_path]
 
         for suffix in ("png", "pdf"):

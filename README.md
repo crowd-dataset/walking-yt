@@ -16,7 +16,9 @@ videos and no frames from videos**: every row points to public YouTube videos
 and the start and end times of the walking segments, and `download_videos.py`
 fetches the videos for users who need them.
 
-![Walking localities worldwide](figures/walking/fig_world_walking_all.png)
+[![Walking localities worldwide](figures/walking/fig_world_walking_all.png)](https://htmlpreview.github.io/?https://github.com/crowd-dataset/walking-yt/blob/main/figures/walking/fig_world_walking_all.html)
+
+*Click any figure to open its interactive version.*
 
 ## At a glance
 
@@ -33,7 +35,7 @@ Snapshot of 3 November 2026; the numbers grow while the pipeline runs.
 
 | Walking environments | Time of day |
 |---|---|
-| ![Walking environments](figures/walking/fig_walking_environment_distribution.png) | ![Time of day](figures/walking/fig_walking_time_of_day.png) |
+| [![Walking environments](figures/walking/fig_walking_environment_distribution.png)](https://htmlpreview.github.io/?https://github.com/crowd-dataset/walking-yt/blob/main/figures/walking/fig_walking_environment_distribution.html) | [![Time of day](figures/walking/fig_walking_time_of_day.png)](https://htmlpreview.github.io/?https://github.com/crowd-dataset/walking-yt/blob/main/figures/walking/fig_walking_time_of_day.html) |
 
 Like any YouTube collection, the dataset over-represents Europe and North
 America and under-represents Africa; `coverage_baseline.py` in
